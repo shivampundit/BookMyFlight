@@ -22,5 +22,6 @@ public class BookingKafkaConsumer {
 		payment.setAmount(booking.getAmount());
 
 		paymentService.createPayment(payment);
+		System.out.println("Topic Creted Successfully");
 	}
 }

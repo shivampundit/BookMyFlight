@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.booking.exception.BookingNotFoundException;
 import com.booking.kafka.BookingKafkaProducer;
 import com.booking.model.Booking;
+import com.booking.model.Payment;
 import com.booking.service.IBookingService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -39,7 +40,7 @@ public class BookingController {
 	public ResponseEntity<String> createBooking(@RequestBody @Valid Booking booking) {
 
 		bookingService.createBooking(booking);
-//		bookingKafkaProducer.sendBookingCreatedEvent(booking);
+		bookingKafkaProducer.sendBookingCreatedEvent(booking);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Booking Created Successfully");
 
 	}
@@ -58,8 +59,8 @@ public class BookingController {
 	@CircuitBreaker(name = "PaymentService", fallbackMethod = "getDefaultInfo")
 	public ResponseEntity<List<Booking>> getAllBookings() {
 		List<Booking> bookings = bookingService.getAllBookings();
-//		Payment payment = new Payment();
-		Booking booking = new Booking();
+		Payment payment = new Payment();
+		Booking booking = new Booking((long) 11111, "Shivam", "KAnpur", "Bangalore", 23444.0, payment);
 		booking.add(linkTo(methodOn(BookingController.class).getBookingById(booking.getId())).withRel("Get By Id"));
 		booking.add(linkTo(methodOn(BookingController.class).updateBooking(booking.getId(), booking))
 				.withRel("Update Booking"));
@@ -73,7 +74,7 @@ public class BookingController {
 			@RequestBody @Valid Booking updatedBooking) {
 		try {
 			bookingService.updateBooking(bookingId, updatedBooking);
-//			bookingKafkaProducer.sendBookingCreatedEvent(updatedBooking);
+			bookingKafkaProducer.sendBookingCreatedEvent(updatedBooking);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Booking Updated Successfully");
 		} catch (BookingNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
@@ -86,7 +87,7 @@ public class BookingController {
 		try {
 			bookingService.deleteBooking(bookingId);
 //			ResponseEntity.ok("Booking deleted successfully");
-//			bookingKafkaProducer.sendBookingCreatedEvent(bookingService.getBookingById(bookingId).getBody());
+			bookingKafkaProducer.sendBookingCreatedEvent(bookingService.getBookingById(bookingId).getBody());
 			return ResponseEntity.status(HttpStatus.OK).body("Booking Deleted Successfully");
 		} catch (BookingNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");

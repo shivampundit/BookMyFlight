@@ -1,0 +1,52 @@
+package com.booking.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.eureka.EurekaClientConfigBean;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+
+@EnableEurekaClient
+
+public class EurekaConfig {
+
+	@Value("${eureka.client.service-url.defaultZone}")
+	private String eurekaServiceUrl;
+	@Value("${spring.application.name}")
+	private String applicationName;
+	@Bean
+	public EurekaInstanceConfigBean eurekaInstanceConfigu() {
+		EurekaInstanceConfigBean config = new EurekaInstanceConfigBean();
+		config.setInstanceEnabledOnit(true);
+		config.setNonSecurePortEnabled(false);
+		config.setPreferIpAddress(true);
+		config.setInstanceId(applicationName + ":" + System.nanoTime()); // Unique instance ID
+		config.setAppname(applicationName);
+		config.setVirtualHostName(applicationName);
+		config.setSecureVirtualHostName(applicationName);
+		config.setIpAddress("localhost"); // Replace with your actual IP address or hostname
+		config.setHostname("localhost"); // Replace with your actual hostname
+		// Set other Eureka instance configuration properties as needed
+		return config;
+
+	}
+
+	@Bean
+	public EurekaClientConfigBean eurekaClientConfig() {
+		EurekaClientConfigBean config = new EurekaClientConfigBean();
+		config.setFetchRegistry(true);
+		config.setRegistryFetchIntervalSeconds(5);
+		config.setRegistryRefreshSingleVipAddress("false");
+		config.setUseDnsForFetchingServiceUrls(false);
+		config.setEurekaServerDNSName(eurekaServiceUrl); 
+
+		// Set other Eureka client configuration properties as needed
+
+		return config;
+
+	}
+
+}
