@@ -1,0 +1,100 @@
+package com.booking.model;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+@Entity
+public class Booking {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Size(min = 3, message="Passenger name should have atleast 3 characters")
+	private String passengerName;
+	private String fromLocation;
+	private String toLocation;
+	@NotNull
+	private Double amount;
+
+	@Autowired
+	@OneToOne
+	@Cascade(CascadeType.ALL)
+	Payment payment;
+
+	public Booking() {
+	}
+
+	public Booking(Long id, String passengerName, String fromLocation, String toLocation, Double amount,
+			Payment payment) {
+		super();
+		this.id = id;
+		this.passengerName = passengerName;
+		this.fromLocation = fromLocation;
+		this.toLocation = toLocation;
+		this.amount = amount;
+		this.payment = payment;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPassenserName() {
+		return passengerName;
+	}
+
+	public void setPassenserName(String passengerName) {
+		this.passengerName = passengerName;
+	}
+
+	public String getFromLocation() {
+		return fromLocation;
+	}
+
+	public void setFromLocation(String fromLocation) {
+		this.fromLocation = fromLocation;
+	}
+
+	public String getToLocation() {
+		return toLocation;
+	}
+
+	public void setToLocation(String toLocation) {
+		this.toLocation = toLocation;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [id=" + id + ", passengerName=" + passengerName + ", fromLocation=" + fromLocation
+				+ ", toLocation=" + toLocation + ", amount=" + amount + ", payment=" + payment + "]";
+	}
+
+}

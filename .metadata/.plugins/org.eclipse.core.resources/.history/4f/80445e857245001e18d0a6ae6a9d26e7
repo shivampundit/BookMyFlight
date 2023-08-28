@@ -1,0 +1,18 @@
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+spring.jpa.properties.hibernate.globally_quoted_identifiers=true
+spring.jpa.properties.hibernate.globally_quoted_identifiers_skip_column_definitions = true
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=shivam
+spring.datasource.password=shivam
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+   
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.defaultZone = http://localhost:8761/eureka/eureka
+
+
+spring.application.name=BookingService 

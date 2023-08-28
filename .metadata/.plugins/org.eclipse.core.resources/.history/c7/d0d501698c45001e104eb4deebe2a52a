@@ -1,0 +1,81 @@
+package com.booking.model;
+
+import java.math.BigInteger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+public class Payment {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
+	private Long transacrionId;
+	private BigInteger accountNo;
+	private String paymentMode;
+	private double amount;
+
+	@Autowired
+	@OneToOne
+	private Booking booking;
+
+	public Payment() {
+		super();
+	}
+
+	public Payment(Long transacrionId, BigInteger accountNo, String paymentMode, double amount, Booking booking) {
+		super();
+		this.transacrionId = transacrionId;
+		this.accountNo = accountNo;
+		this.paymentMode = paymentMode;
+		this.amount = amount;
+		this.booking = booking;
+	}
+
+	public Long getTransacrionId() {
+		return transacrionId;
+	}
+
+	public void setTransacrionId(Long transacrionId) {
+		this.transacrionId = transacrionId;
+	}
+
+	public BigInteger getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(BigInteger accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public Booking getBooking() {
+		return booking;
+	}
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
+}

@@ -1,0 +1,72 @@
+package com.payment.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.payment.exception.PaymentNotFoundException;
+import com.payment.model.Payment;
+import com.payment.service.IPaymentService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/payment")
+public class PaymentController {
+
+	@Autowired
+	private IPaymentService paymentService;
+
+	@PostMapping
+	public ResponseEntity<String> createPayment(@RequestBody Payment payment) {
+		return paymentService.createPayment(payment);
+
+	}
+
+	@GetMapping("/{paymentId}")
+	public ResponseEntity<Payment> getPaymentById(@PathVariable @Valid Long paymentId) {
+		try {
+			ResponseEntity<Payment> payment = paymentService.getPaymentById(paymentId);
+			return ResponseEntity.ok(payment.getBody());
+		} catch (PaymentNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Payment>> getAllPayments() {
+		List<Payment> payments = paymentService.getAllPayments();
+		return ResponseEntity.ok(payments);
+	}
+
+	@PutMapping("/{paymentId}")
+	public ResponseEntity<String> updatePayment(@PathVariable Long paymentId, @RequestBody Payment updatedPayment) {
+		try {
+			return paymentService.updatePayment(paymentId, updatedPayment);
+		} catch (PaymentNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Payment not found");
+
+		}
+	}
+
+	@DeleteMapping("/{paymentId}")
+	public ResponseEntity<String> deletePayment(@PathVariable Long paymentId) {
+		try {
+			paymentService.deletePayment(paymentId);
+			return ResponseEntity.ok("Payment deleted successfully");
+		} catch (PaymentNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Payment not found");
+		}
+	}
+
+}

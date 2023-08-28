@@ -1,0 +1,6 @@
+package com.booking.dao;
+
+@
+public class BookingDaoImpl implements IBookingDao{
+
+}
