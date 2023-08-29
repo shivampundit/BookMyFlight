@@ -38,8 +38,8 @@ To run the Flight Booking App locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/your-username/flight-booking-app.git`
 2. Navigate to the project directory: `cd flight-booking-app` AND then start Eureka Server.
-3. Start the Booking Microservice: `cd booking-microservice && mvn spring-boot:run`
-4. Start the Payment Microservice: `cd payment-microservice && mvn spring-boot:run`
+3. Start the Booking Microservice: `cd BookingService && mvn spring-boot:run`
+4. Start the Payment Microservice: `cd PaymentService && mvn spring-boot:run`
 5. Visit http://localhost:8080 to access the application.
 
 Feel free to explore each microservices for detailed API endpoints and usage.
