@@ -14,7 +14,6 @@ The Booking Microservice handles flight booking operations. It includes the foll
 - Model: Defines the Booking entity
 - Service: Implements business logic for flight booking
 - Kafka: Integrates with Kafka to notify Payment Service
-- Integration: Communicates with Eureka for service discovery (Incomplete)
 
 ### Payment Microservice
 The Payment Microservice manages payment processing for flight bookings. It consists of:
@@ -25,7 +24,6 @@ The Payment Microservice manages payment processing for flight bookings. It cons
 - Model: Defines the Payment entity
 - Service: Implements payment logic and communicates with Booking Microservice
 - Kafka: Consumes notifications from the Booking Service 
-- Integration: Connects with Eureka for service discovery(Incomplete)
 
 ## Why We Chose This Architecture
 - **Microservices Architecture:** We adopted a microservices architecture to achieve modularity, scalability, and maintainability. both microservices focus on a specific domain, making it easier to develop and deploy.
